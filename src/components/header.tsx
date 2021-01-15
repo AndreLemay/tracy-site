@@ -1,42 +1,24 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
+import { graphql, useStaticQuery } from "gatsby"
+import BackgroundImage from "gatsby-background-image"
+import Navbar from "./Navbar"
 import React from "react"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+export default () => {
+    const { banner } = useStaticQuery(graphql`
+        query {
+            banner: file(relativePath: { eq: "main-banner.png" }) {
+                childImageSharp {
+                    fluid(maxWidth: 800) {
+                        ...GatsbyImageSharpFluid
+                    }
+                }
+            }
+        }
+    `)
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
+    return (
+        <BackgroundImage style={{ width: 800, height: 300 }} fluid={banner.childImageSharp.fluid}>
+            <Navbar />
+        </BackgroundImage>
+    )
 }
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
-
-export default Header
