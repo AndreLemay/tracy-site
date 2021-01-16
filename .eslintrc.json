@@ -23,12 +23,13 @@
         "sourceType": "module"
     },
     "plugins": ["react", "@typescript-eslint", "unicorn"],
+    "ignorePatterns": ["**/gatsby*.js"],
     "rules": {
         "indent": ["error", 4],
         "linebreak-style": ["error", "windows"],
         "react/display-name": ["off"],
         "react/prop-types": ["off"],
-        "quotes": ["error", "double"],
+        "quotes": ["error", "double", { "allowTemplateLiterals": true }],
         "semi": ["error", "never"],
         "unicorn/filename-case": [
             "error",
