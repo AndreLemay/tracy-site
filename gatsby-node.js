@@ -1,7 +1,20 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/node-apis/
- */
+exports.createPages = async ({ actions, graphql }) => {
+    const { data } = await graphql(`
+        query {
+            allContentfulBook {
+                nodes {
+                    id
+                    contentful_id
+                }
+            }
+        }
+    `)
 
-// You can delete this file if you're not using it
+    data.allContentfulBook.nodes.forEach(({ id, contentful_id }) => {
+        actions.createPage({
+            path: `/books/${contentful_id}`,
+            component: require.resolve(`./src/templates/Book.tsx`),
+            context: { id },
+        })
+    })
+}
