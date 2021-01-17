@@ -7,7 +7,7 @@ import {
     RenderRichTextData,
 } from "gatsby-source-contentful/rich-text"
 import { graphql } from "gatsby"
-import { Container, Grid, Paper } from "@material-ui/core"
+import { Container, Divider, Grid, Paper, Typography } from "@material-ui/core"
 import Layout from "../components/Layout"
 
 interface BookProps {
@@ -15,6 +15,12 @@ interface BookProps {
         contentfulBook: {
             title: string
             description: RenderRichTextData<ContentfulRichTextGatsbyReference>
+            reviews: {
+                stars: 0 | 1 | 2 | 3 | 4 | 5
+                quote: {
+                    quote: string
+                }
+            }[]
             coverImage: {
                 fixed: FixedObject
             }
@@ -40,6 +46,13 @@ export default ({ data }: BookProps) => {
                             />
                         </Grid>
                     </Grid>
+                    <Divider variant="middle" />
+                    {data.contentfulBook.reviews.map((review, i) => (
+                        <div key={i}>
+                            <Typography variant="caption">{review.quote.quote}</Typography>
+                            <Typography variant="subtitle1">{`${review.stars}/5 Stars`}</Typography>
+                        </div>
+                    ))}
                 </Paper>
             </Container>
         </Layout>
@@ -52,6 +65,12 @@ export const query = graphql`
             title
             description {
                 raw
+            }
+            reviews {
+                stars
+                quote {
+                    quote
+                }
             }
             coverImage {
                 fixed(width: 400) {
