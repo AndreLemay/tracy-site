@@ -14,14 +14,14 @@ interface BookProps {
     data: {
         contentfulBook: {
             title: string
-            description: RenderRichTextData<ContentfulRichTextGatsbyReference>
-            reviews: {
-                stars: 0 | 1 | 2 | 3 | 4 | 5
+            description?: RenderRichTextData<ContentfulRichTextGatsbyReference>
+            reviews?: {
+                stars?: 0 | 1 | 2 | 3 | 4 | 5
                 quote: {
                     quote: string
                 }
             }[]
-            coverImage: {
+            coverImage?: {
                 fixed: FixedObject
             }
         }
@@ -36,23 +36,28 @@ export default ({ data }: BookProps) => {
                     <Grid container>
                         <Grid container item xs={9} direction="row">
                             <div>{data.contentfulBook.title}</div>
-                            <div>{renderRichText(data.contentfulBook.description)}</div>
+                            <div>
+                                {data.contentfulBook.description && renderRichText(data.contentfulBook.description)}
+                            </div>
                         </Grid>
                         <Grid item xs={3}>
-                            <Image
-                                fixed={data.contentfulBook.coverImage.fixed}
-                                style={{ width: "100%", height: "100%" }}
-                                imgStyle={{ objectFit: "contain" }}
-                            />
+                            {data.contentfulBook.coverImage && (
+                                <Image
+                                    fixed={data.contentfulBook.coverImage.fixed}
+                                    style={{ width: "100%", height: "100%" }}
+                                    imgStyle={{ objectFit: "contain" }}
+                                />
+                            )}
                         </Grid>
                     </Grid>
                     <Divider variant="middle" />
-                    {data.contentfulBook.reviews.map((review, i) => (
-                        <div key={i}>
-                            <Typography variant="caption">{review.quote.quote}</Typography>
-                            <Typography variant="subtitle1">{`${review.stars}/5 Stars`}</Typography>
-                        </div>
-                    ))}
+                    {data.contentfulBook.reviews &&
+                        data.contentfulBook.reviews.map((review, i) => (
+                            <div key={i}>
+                                <Typography variant="caption">{review.quote.quote}</Typography>
+                                <Typography variant="subtitle1">{`${review.stars}/5 Stars`}</Typography>
+                            </div>
+                        ))}
                 </Paper>
             </Container>
         </Layout>
@@ -69,7 +74,9 @@ export const query = graphql`
             reviews {
                 stars
                 quote {
-                    quote
+                    childMarkdownRemark {
+                        html
+                    }
                 }
             }
             coverImage {
