@@ -3,7 +3,6 @@ exports.createSchemaCustomization = ({ actions }) => {
 
     createTypes(`
         type ContentfulAsset implements Node {
-            id: ID!
             fixed: ContentfulFixed
             fluid: ContentfulFluid
         }
