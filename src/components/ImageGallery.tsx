@@ -6,10 +6,10 @@ import Path from "path"
 
 interface ImageGalleryProps {
     images: FluidObject[]
-    cols: GridSize
-    spacing: GridSpacing
+    cols?: GridSize
+    spacing?: GridSpacing
 }
-export default ({ images, cols, spacing }: ImageGalleryProps) => {
+export default ({ images, cols = 3, spacing = 2 }: ImageGalleryProps) => {
     return (
         <Grid container spacing={spacing} xs={12}>
             {images.map((img, i) => (
