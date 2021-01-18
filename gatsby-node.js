@@ -2,6 +2,12 @@ exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions
 
     createTypes(`
+        type ContentfulAsset implements Node {
+            id: ID!
+            fixed: ContentfulFixed
+            fluid: ContentfulFluid
+        }
+    
         type ContentfulBookDescription {
             raw: String!
         }
@@ -10,20 +16,20 @@ exports.createSchemaCustomization = ({ actions }) => {
             html: String!
         }
 
-        type contentfulBookReviewQuoteTextNode implements Node @dontInfer @childOf(types: ["ContentfulBookReview"]) {
+        type contentfulBookReviewQuoteTextNode implements Node @childOf(types: ["ContentfulBookReview"]) {
             quote: String
             childMarkdownRemark: MarkdownRemark
         }
 
-        type ContentfulBookReview implements Node @dontInfer {
+        type ContentfulBookReview implements Node {
             stars: Int
-            quote: contentfulBookReviewQuoteTextNode!
+            quote: contentfulBookReviewQuoteTextNode! @link(by: "id", from: "quote___NODE")
         }
 
-        type ContentfulBook implements Node @dontInfer {
+        type ContentfulBook implements Node {
             title: String!
             description: ContentfulBookDescription
-            coverImage: ContentfulAsset
+            coverImage: ContentfulAsset @link(by: "id", from: "coverImage___NODE")
             reviews: [ContentfulBookReview!]
         }
     `)
