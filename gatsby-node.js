@@ -27,7 +27,9 @@ exports.createSchemaCustomization = ({ actions }) => {
 
         type ContentfulBook implements Node {
             title: String!
-            description: ContentfulBookDescription
+            shortDescription: String!
+            description: ContentfulBookDescription!
+            releaseDate: Date! @dateFormat
             coverImage: ContentfulAsset @link(by: "id", from: "coverImage___NODE")
             reviews: [ContentfulBookReview!]
         }
