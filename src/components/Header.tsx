@@ -1,5 +1,5 @@
 import { graphql, useStaticQuery } from "gatsby"
-import Img from "gatsby-image"
+import Image from "./Image"
 import Navbar from "./Navbar"
 import React from "react"
 
@@ -18,7 +18,7 @@ export default () => {
 
     return (
         <>
-            <Img style={{ maxWidth: 1200, height: 250, margin: "auto" }} fluid={banner.childImageSharp.fluid} />
+            <Image style={{ maxWidth: 1200, height: 250, margin: "auto" }} fluid={banner.childImageSharp.fluid} />
             <Navbar />
         </>
     )
