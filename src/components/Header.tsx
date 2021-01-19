@@ -18,7 +18,7 @@ export default () => {
 
     return (
         <>
-            <Img style={{ maxWidth: 1200, height: 350, margin: "auto" }} fluid={banner.childImageSharp.fluid} />
+            <Img style={{ maxWidth: 1200, height: 250, margin: "auto" }} fluid={banner.childImageSharp.fluid} />
             <Navbar />
         </>
     )

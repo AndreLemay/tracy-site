@@ -8,6 +8,19 @@ interface ImageProps extends GatsbyImageOptionalProps {
 }
 
 const Image = ({ fluid, fixed, ...props }: ImageProps) => {
+    //if passed in props don't define height and objectFit, give them defaults that will actually make the image stay in its container
+    props = {
+        ...props,
+        style: {
+            height: "100%",
+            ...props.style,
+        },
+        imgStyle: {
+            objectFit: "contain",
+            ...props.imgStyle,
+        },
+    }
+
     if (fluid) return <Img fluid={fluid} {...props} />
     else if (fixed) return <Img fixed={fixed} {...props} />
     else return <div>Unable to retrieve image</div>
