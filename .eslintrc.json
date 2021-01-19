@@ -25,7 +25,6 @@
     "plugins": ["react", "@typescript-eslint", "unicorn"],
     "ignorePatterns": ["**/gatsby*.js"],
     "rules": {
-        "indent": ["error", 4],
         "linebreak-style": ["error", "windows"],
         "react/display-name": ["off"],
         "react/prop-types": ["off"],
