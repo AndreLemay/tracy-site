@@ -45,6 +45,12 @@ exports.createPages = async ({ actions, graphql }) => {
                     contentful_id
                 }
             }
+            allContentfulBlogPost {
+                nodes {
+                    id
+                    contentful_id
+                }
+            }
         }
     `)
 
@@ -52,6 +58,14 @@ exports.createPages = async ({ actions, graphql }) => {
         actions.createPage({
             path: `/books/${contentful_id}`,
             component: require.resolve(`./src/templates/Book.tsx`),
+            context: { id },
+        })
+    })
+
+    data.allContentfulBlogPost.nodes.forEach(({ id, contentful_id }) => {
+        actions.createPage({
+            path: `/blog/${contentful_id}`,
+            component: require.resolve(`./src/templates/BlogPost.tsx`),
             context: { id },
         })
     })
