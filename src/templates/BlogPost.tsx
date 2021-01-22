@@ -7,6 +7,7 @@ import {
 } from "gatsby-source-contentful/rich-text"
 import React from "react"
 import RichTextRenderOptions from "../components/richTextRenderers/RichTextRenderOptions"
+import Layout from "../components/Layout"
 
 interface BlogPostProps {
     data: {
@@ -23,10 +24,12 @@ export default ({
     },
 }: BlogPostProps) => {
     return (
-        <div>
-            <Typography variant="h1">{title}</Typography>
+        <Layout>
+            <Typography variant="h1" align="center">
+                {title}
+            </Typography>
             {renderRichText(body, RichTextRenderOptions)}
-        </div>
+        </Layout>
     )
 }
 
@@ -46,8 +49,13 @@ export const query = graphql`
                     }
                     ... on ContentfulBook {
                         contentful_id
-                        id
                         title
+                        shortDescription
+                    }
+                    ... on ContentfulBlogPost {
+                        contentful_id
+                        title
+                        summary
                     }
                 }
             }

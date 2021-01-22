@@ -9,6 +9,7 @@ module.exports = {
         author: `lemay.andre@gmail.com`,
     },
     plugins: [
+        `gatsby-plugin-graphql-codegen`,
         `gatsby-plugin-react-helmet`,
         `gatsby-plugin-material-ui`,
         {

@@ -7,23 +7,31 @@ import { Box, Divider, List, ListItem, Typography } from "@material-ui/core"
 import Image from "../Image"
 import { ContentfulRichTextGatsbyReference } from "gatsby-source-contentful/rich-text"
 import { FixedObject, FluidObject } from "gatsby-image"
+import ContentfulBlogPostRenderer from "./ContentfulBlogPostRenderer"
 
 enum ContentfulNodeTypes {
     BOOK = "ContentfulBook",
+    BLOG_POST = "ContentfulBlogPost",
     ASSET = "ContentfulAsset",
 }
 
 interface ContentfulBook extends ContentfulRichTextGatsbyReference {
     __typename: ContentfulNodeTypes.BOOK
     contentful_id: string
-    id: string
     title: string
+    shortDescription: string
+}
+
+interface ContentfulBlogPost extends ContentfulRichTextGatsbyReference {
+    __typename: ContentfulNodeTypes.BLOG_POST
+    contentful_id: string
+    title: string
+    summary: string
 }
 
 interface ContentfulAsset extends ContentfulRichTextGatsbyReference {
     __typename: ContentfulNodeTypes.ASSET
     fixed?: FixedObject
-    fluid?: FluidObject
     file: {
         fileName: string
         contentType: string
@@ -31,12 +39,12 @@ interface ContentfulAsset extends ContentfulRichTextGatsbyReference {
     }
 }
 
-type ContentfulEntry = ContentfulBook | ContentfulAsset
+type ContentfulEntry = ContentfulBook | ContentfulBlogPost | ContentfulAsset
 
 const commonOptions: Options = {
     renderMark: {
         [MARKS.BOLD]: text => (
-            <Box fontWeight={500} component="span">
+            <Box fontWeight={700} component="span">
                 {text}
             </Box>
         ),
@@ -57,12 +65,9 @@ const commonOptions: Options = {
             const nodeData: ContentfulEntry = node.data.target
             switch (nodeData.__typename) {
                 case ContentfulNodeTypes.BOOK:
-                    return (
-                        <ContentfulBookRenderer.fullRenderer
-                            title={nodeData.title}
-                            contentful_id={nodeData.contentful_id}
-                        />
-                    )
+                    return <ContentfulBookRenderer.fullRenderer {...nodeData} />
+                case ContentfulNodeTypes.BLOG_POST:
+                    return <ContentfulBlogPostRenderer.fullRenderer {...nodeData} />
                 default:
                     return <span>{`Unrecognized Content Type: ${nodeData.__typename}`}</span>
             }
@@ -71,20 +76,22 @@ const commonOptions: Options = {
             const nodeData: ContentfulEntry = node.data.target
             switch (nodeData.__typename) {
                 case ContentfulNodeTypes.BOOK:
-                    return (
-                        <ContentfulBookRenderer.inlineRenderer
-                            title={nodeData.title}
-                            contentful_id={nodeData.contentful_id}
-                        />
-                    )
+                    return <ContentfulBookRenderer.inlineRenderer {...nodeData} />
+                case ContentfulNodeTypes.BLOG_POST:
+                    return <ContentfulBlogPostRenderer.inlineRenderer {...nodeData} />
                 default:
                     return <span>{`Unrecognized inline Content Type: ${nodeData.__typename}`}</span>
             }
         },
         [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
             const nodeData: ContentfulAsset = node.data.target
-            if ("fixed" in nodeData) return <Image fixed={nodeData.fixed} />
-            else if ("fluid" in nodeData) return <Image fluid={nodeData.fluid} />
+            if ("fixed" in nodeData)
+                return (
+                    <Image
+                        fixed={nodeData.fixed}
+                        style={{ width: nodeData.fixed.width, height: nodeData.fixed.height }}
+                    />
+                )
             else if ("file" in nodeData) return <span>{`This is some kind of file: ${nodeData.file.fileName}`}</span>
             // TODO implement rendering for different file types based on file.contentType
             else return <span>No idea what this is</span>

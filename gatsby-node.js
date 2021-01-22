@@ -33,6 +33,10 @@ exports.createSchemaCustomization = ({ actions }) => {
             coverImage: ContentfulAsset @link(by: "id", from: "coverImage___NODE")
             reviews: [ContentfulBookReview!]
         }
+
+        type ContentfulBlogPost implements Node {
+            title: String!
+        }
     `)
 }
 
