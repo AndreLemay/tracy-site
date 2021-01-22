@@ -47,7 +47,7 @@ export default ({
                             <Grid item>Eventually put some kind of &quot;(Pre-)Order Now&quot; button here.</Grid>
                         </Grid>
                         <Grid item xs={4}>
-                            <Image fluid={coverImage.fluid} />
+                            <Image fluid={coverImage && coverImage.fluid} />
                         </Grid>
                     </Grid>
                 </Box>
