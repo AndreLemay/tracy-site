@@ -11,7 +11,7 @@ interface ImageProps extends GatsbyImageOptionalProps {
 interface StaticQueryResult {
     placeholderImage: {
         childImageSharp: {
-            fixed: FixedObject
+            fluid: FluidObject
         }
     }
 }
@@ -21,8 +21,8 @@ const Image = ({ fluid, fixed, ...props }: ImageProps) => {
         query {
             placeholderImage: file(relativePath: { eq: "unknown-image.png" }, sourceInstanceName: { eq: "images" }) {
                 childImageSharp {
-                    fixed {
-                        ...GatsbyImageSharpFixed
+                    fluid {
+                        ...GatsbyImageSharpFluid
                     }
                 }
             }
@@ -44,7 +44,7 @@ const Image = ({ fluid, fixed, ...props }: ImageProps) => {
 
     if (fluid) return <Img fluid={fluid} {...props} />
     else if (fixed) return <Img fixed={fixed} {...props} />
-    else return <Img fixed={placeholderImage.childImageSharp.fixed} {...props} />
+    else return <Img fluid={placeholderImage.childImageSharp.fluid} {...props} />
 }
 
 export default Image
