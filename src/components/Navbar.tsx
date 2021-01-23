@@ -11,7 +11,7 @@ export default () => {
                 }}
             >
                 <Link to="/">Home</Link>
-                <Link to="/">Tracy</Link>
+                <Link to="/AboutAuthor">Tracy</Link>
                 <Link to="/Books">Books</Link>
                 <Link to="/">Sets/Props</Link>
                 <Link to="/">Visual Arts</Link>
