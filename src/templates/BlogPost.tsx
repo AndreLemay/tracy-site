@@ -12,7 +12,7 @@ import Layout from "../components/Layout"
 interface BlogPostProps {
     data: {
         contentfulBlogPost: {
-            title: string
+            postTitle: string
             body: RenderRichTextData<ContentfulRichTextGatsbyReference>
         }
     }
@@ -20,13 +20,13 @@ interface BlogPostProps {
 
 export default ({
     data: {
-        contentfulBlogPost: { title, body },
+        contentfulBlogPost: { postTitle, body },
     },
 }: BlogPostProps) => {
     return (
         <Layout>
             <Typography variant="h1" align="center" gutterBottom>
-                {title}
+                {postTitle}
             </Typography>
             {renderRichText(body, RichTextRenderOptions)}
         </Layout>
@@ -36,35 +36,18 @@ export default ({
 export const query = graphql`
     query($id: String!) {
         contentfulBlogPost(id: { eq: $id }) {
-            title
+            postTitle
             body {
                 raw
                 references {
                     ... on ContentfulAsset {
-                        contentful_id
-                        id
-                        fixed {
-                            ...GatsbyContentfulFixed
-                        }
-                        file {
-                            fileName
-                            url
-                        }
+                        ...RichTextContentfulAsset
                     }
                     ... on ContentfulBook {
-                        contentful_id
-                        title
-                        shortDescription
-                        coverImage {
-                            fluid {
-                                ...GatsbyContentfulFluid
-                            }
-                        }
+                        ...RichTextContentfulBook
                     }
                     ... on ContentfulBlogPost {
-                        contentful_id
-                        title
-                        summary
+                        ...RichTextContentfulBlogPost
                     }
                 }
             }

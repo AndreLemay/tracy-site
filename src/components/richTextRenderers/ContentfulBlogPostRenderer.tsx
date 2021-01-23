@@ -4,17 +4,17 @@ import React from "react"
 
 interface ContentfulBlogPostRendererProps {
     contentful_id: string
-    title: string
+    postTitle: string
     summary: string
 }
 
-const fullRenderer = ({ title, contentful_id, summary }: ContentfulBlogPostRendererProps) => {
+const fullRenderer = ({ postTitle, contentful_id, summary }: ContentfulBlogPostRendererProps) => {
     return (
         <Box display="flex" justifyContent="center" marginBottom="1rem">
             <Paper elevation={3}>
                 <Box width={600} height={200} padding="1rem">
                     <Typography variant="h4" gutterBottom>
-                        <Link to={`/blog/${contentful_id}`}>{title}</Link>
+                        <Link to={`/blog/${contentful_id}`}>{postTitle}</Link>
                     </Typography>
                     <Typography variant="body1" component="span">
                         {summary}
@@ -25,10 +25,10 @@ const fullRenderer = ({ title, contentful_id, summary }: ContentfulBlogPostRende
     )
 }
 
-const inlineRenderer = ({ title, contentful_id }: ContentfulBlogPostRendererProps) => {
+const inlineRenderer = ({ postTitle, contentful_id }: ContentfulBlogPostRendererProps) => {
     return (
         <Typography variant="body1" component="span">
-            <Link to={`/blog/${contentful_id}`}>{title}</Link>
+            <Link to={`/blog/${contentful_id}`}>{postTitle}</Link>
         </Typography>
     )
 }

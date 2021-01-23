@@ -6,14 +6,14 @@ import Image from "../Image"
 
 interface ContentfulBookRendererProps {
     contentful_id: string
-    title: string
+    bookTitle: string
     shortDescription: string
     coverImage?: {
         fluid: FluidObject
     }
 }
 
-const fullRenderer = ({ title, contentful_id, shortDescription, coverImage }: ContentfulBookRendererProps) => {
+const fullRenderer = ({ bookTitle, contentful_id, shortDescription, coverImage }: ContentfulBookRendererProps) => {
     return (
         <Box display="flex" justifyContent="center" marginBottom="1rem">
             <Box height={250} width={600}>
@@ -22,7 +22,7 @@ const fullRenderer = ({ title, contentful_id, shortDescription, coverImage }: Co
                         <Grid container style={{ height: "100%" }}>
                             <Grid item xs={6} style={{ height: "100%" }}>
                                 <Typography variant="h4" gutterBottom>
-                                    <Link to={`/books/${contentful_id}`}>{title}</Link>
+                                    <Link to={`/books/${contentful_id}`}>{bookTitle}</Link>
                                 </Typography>
                                 <Typography variant="body1" component="span">
                                     {shortDescription}
@@ -39,10 +39,10 @@ const fullRenderer = ({ title, contentful_id, shortDescription, coverImage }: Co
     )
 }
 
-const inlineRenderer = ({ title, contentful_id }: ContentfulBookRendererProps) => {
+const inlineRenderer = ({ bookTitle, contentful_id }: ContentfulBookRendererProps) => {
     return (
         <Typography variant="body1" component="span">
-            <Link to={`/books/${contentful_id}`}>{title}</Link>
+            <Link to={`/books/${contentful_id}`}>{bookTitle}</Link>
         </Typography>
     )
 }

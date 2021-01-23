@@ -69,17 +69,12 @@ export default ({ data }: BookProps) => {
 export const query = graphql`
     query($id: String!) {
         contentfulBook(id: { eq: $id }) {
-            title
+            bookTitle
             description {
                 raw
             }
             reviews {
                 stars
-                quote {
-                    childMarkdownRemark {
-                        html
-                    }
-                }
             }
             coverImage {
                 fixed(width: 400) {

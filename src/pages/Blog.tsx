@@ -8,7 +8,7 @@ interface BlogProps {
         allContentfulBlogPost: {
             nodes: {
                 contentful_id: string
-                title: string
+                postTitle: string
                 summary: string
                 updatedAt: string
             }[]
@@ -23,7 +23,7 @@ export default ({
 }: BlogProps) => (
     <Layout>
         <Grid container direction="column">
-            {nodes.map(({ contentful_id, title, summary, updatedAt }, i) => {
+            {nodes.map(({ contentful_id, postTitle, summary, updatedAt }, i) => {
                 return (
                     <Grid item key={i}>
                         <Box display="flex" justifyContent="space-between">
@@ -31,7 +31,7 @@ export default ({
                                 to={`/blog/${contentful_id}`}
                                 style={{ marginBottom: "1rem", display: "inline-block" }}
                             >
-                                <Typography variant="h4">{title}</Typography>
+                                <Typography variant="h4">{postTitle}</Typography>
                             </Link>
                             <Box fontStyle="italic" textAlign="right">
                                 <Typography variant="subtitle1">{`Posted: ${updatedAt}`}</Typography>
@@ -51,7 +51,7 @@ export const query = graphql`
         allContentfulBlogPost {
             nodes {
                 contentful_id
-                title
+                postTitle
                 summary
                 updatedAt(formatString: "YYYY/MM/DD hh:mma")
             }

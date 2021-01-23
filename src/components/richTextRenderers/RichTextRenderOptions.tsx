@@ -9,7 +9,7 @@ import { ContentfulRichTextGatsbyReference } from "gatsby-source-contentful/rich
 import { FixedObject, FluidObject } from "gatsby-image"
 import ContentfulBlogPostRenderer from "./ContentfulBlogPostRenderer"
 import MuiLink from "@material-ui/core/Link"
-import { Link } from "gatsby"
+import { graphql, Link } from "gatsby"
 
 enum ContentfulNodeTypes {
     BOOK = "ContentfulBook",
@@ -20,7 +20,7 @@ enum ContentfulNodeTypes {
 interface ContentfulBook extends ContentfulRichTextGatsbyReference {
     __typename: ContentfulNodeTypes.BOOK
     contentful_id: string
-    title: string
+    bookTitle: string
     shortDescription: string
     coverImage?: {
         fluid: FluidObject
@@ -30,7 +30,7 @@ interface ContentfulBook extends ContentfulRichTextGatsbyReference {
 interface ContentfulBlogPost extends ContentfulRichTextGatsbyReference {
     __typename: ContentfulNodeTypes.BLOG_POST
     contentful_id: string
-    title: string
+    postTitle: string
     summary: string
 }
 
@@ -179,3 +179,33 @@ const commonOptions: Options = {
 }
 
 export default commonOptions
+
+export const richTextContentfulBookFragment = graphql`
+    fragment RichTextContentfulBook on ContentfulBook {
+        contentful_id
+        bookTitle
+        shortDescription
+        coverImage {
+            fluid {
+                ...GatsbyContentfulFluid
+            }
+        }
+    }
+
+    fragment RichTextContentfulBlogPost on ContentfulBlogPost {
+        contentful_id
+        postTitle
+        summary
+    }
+
+    fragment RichTextContentfulAsset on ContentfulAsset {
+        contentful_id
+        fixed {
+            ...GatsbyContentfulFixed
+        }
+        file {
+            fileName
+            url
+        }
+    }
+`

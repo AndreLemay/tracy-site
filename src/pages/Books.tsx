@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@material-ui/core"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import { FluidObject } from "gatsby-image"
 import React from "react"
 import Layout from "../components/Layout"
@@ -9,8 +9,8 @@ interface BooksPageProps {
     data: {
         allContentfulBook: {
             nodes: {
-                id: string
-                title: string
+                contentful_id: string
+                bookTitle: string
                 shortDescription: string
                 releaseDate: string
                 coverImage?: {
@@ -27,7 +27,7 @@ export default ({
     },
 }: BooksPageProps) => (
     <Layout>
-        {nodes.map(({ releaseDate, title, shortDescription, coverImage }, i) => {
+        {nodes.map(({ contentful_id, releaseDate, bookTitle, shortDescription, coverImage }, i) => {
             const rDate = new Date(releaseDate) //comes in as a string, needs to be converted to date object
             return (
                 <Box key={i} height={400}>
@@ -39,7 +39,9 @@ export default ({
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Typography variant="h2">{title}</Typography>
+                                <Link to={`/books/${contentful_id}`}>
+                                    <Typography variant="h2">{bookTitle}</Typography>
+                                </Link>
                             </Grid>
                             <Grid item>
                                 <Typography variant="body1">{shortDescription}</Typography>
@@ -60,8 +62,8 @@ export const query = graphql`
     query {
         allContentfulBook {
             nodes {
-                id
-                title
+                contentful_id
+                bookTitle
                 shortDescription
                 releaseDate
                 coverImage {
