@@ -25,7 +25,7 @@ export default ({
 }: BlogPostProps) => {
     return (
         <Layout>
-            <Typography variant="h1" align="center">
+            <Typography variant="h1" align="center" gutterBottom>
                 {title}
             </Typography>
             {renderRichText(body, RichTextRenderOptions)}
@@ -51,6 +51,11 @@ export const query = graphql`
                         contentful_id
                         title
                         shortDescription
+                        coverImage {
+                            fluid {
+                                ...GatsbyContentfulFluid
+                            }
+                        }
                     }
                     ... on ContentfulBlogPost {
                         contentful_id

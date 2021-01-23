@@ -20,6 +20,9 @@ interface ContentfulBook extends ContentfulRichTextGatsbyReference {
     contentful_id: string
     title: string
     shortDescription: string
+    coverImage?: {
+        fluid: FluidObject
+    }
 }
 
 interface ContentfulBlogPost extends ContentfulRichTextGatsbyReference {
@@ -87,10 +90,12 @@ const commonOptions: Options = {
             const nodeData: ContentfulAsset = node.data.target
             if ("fixed" in nodeData)
                 return (
-                    <Image
-                        fixed={nodeData.fixed}
-                        style={{ width: nodeData.fixed.width, height: nodeData.fixed.height }}
-                    />
+                    <Box width="100%" display="flex" justifyContent="center" marginBottom="2rem" marginTop="2rem">
+                        <Image
+                            fixed={nodeData.fixed}
+                            style={{ width: nodeData.fixed.width, height: nodeData.fixed.height, flex: "0 0 auto" }}
+                        />
+                    </Box>
                 )
             else if ("file" in nodeData) return <span>{`This is some kind of file: ${nodeData.file.fileName}`}</span>
             // TODO implement rendering for different file types based on file.contentType

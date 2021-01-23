@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@material-ui/core"
+import { Box, Paper, Typography } from "@material-ui/core"
 import { Link } from "gatsby"
 import React from "react"
 
@@ -10,14 +10,18 @@ interface ContentfulBlogPostRendererProps {
 
 const fullRenderer = ({ title, contentful_id, summary }: ContentfulBlogPostRendererProps) => {
     return (
-        <Paper elevation={3}>
-            <Typography variant="h4">
-                <Link to={`/blog/${contentful_id}`}>{title}</Link>
-            </Typography>
-            <Typography variant="body1" component="span">
-                {summary}
-            </Typography>
-        </Paper>
+        <Box display="flex" justifyContent="center">
+            <Paper elevation={3}>
+                <Box width={600} height={200} padding="1rem">
+                    <Typography variant="h4" gutterBottom>
+                        <Link to={`/blog/${contentful_id}`}>{title}</Link>
+                    </Typography>
+                    <Typography variant="body1" component="span">
+                        {summary}
+                    </Typography>
+                </Box>
+            </Paper>
+        </Box>
     )
 }
 

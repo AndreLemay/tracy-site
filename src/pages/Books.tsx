@@ -13,7 +13,7 @@ interface BooksPageProps {
                 title: string
                 shortDescription: string
                 releaseDate: string
-                coverImage: {
+                coverImage?: {
                     fluid: FluidObject
                 }
             }[]
@@ -65,7 +65,7 @@ export const query = graphql`
                 shortDescription
                 releaseDate
                 coverImage {
-                    fluid(maxWidth: 400) {
+                    fluid {
                         ...GatsbyContentfulFluid
                     }
                 }
