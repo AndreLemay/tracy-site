@@ -9,7 +9,12 @@ module.exports = {
         author: `lemay.andre@gmail.com`,
     },
     plugins: [
-        `gatsby-plugin-graphql-codegen`,
+        {
+            resolve: `gatsby-plugin-schema-export`,
+            options: {
+                dest: "./schema.graphql",
+            },
+        },
         `gatsby-plugin-react-helmet`,
         `gatsby-plugin-material-ui`,
         {
