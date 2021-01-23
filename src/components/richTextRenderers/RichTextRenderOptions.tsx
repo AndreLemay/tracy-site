@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React from "react"
-import { BLOCKS, MARKS, INLINES } from "@contentful/rich-text-types"
+import React, { ReactNode } from "react"
+import { BLOCKS, MARKS, INLINES, Inline, Block, Text } from "@contentful/rich-text-types"
 import { Options } from "@contentful/rich-text-react-renderer"
 import ContentfulBookRenderer from "./ContentfulBookRenderer"
 import { Box, Divider, List, ListItem, Typography } from "@material-ui/core"
@@ -8,6 +8,7 @@ import Image from "../Image"
 import { ContentfulRichTextGatsbyReference } from "gatsby-source-contentful/rich-text"
 import { FixedObject, FluidObject } from "gatsby-image"
 import ContentfulBlogPostRenderer from "./ContentfulBlogPostRenderer"
+import MuiLink from "@material-ui/core/Link"
 
 enum ContentfulNodeTypes {
     BOOK = "ContentfulBook",
@@ -44,6 +45,18 @@ interface ContentfulAsset extends ContentfulRichTextGatsbyReference {
 
 type ContentfulEntry = ContentfulBook | ContentfulBlogPost | ContentfulAsset
 
+const inlineEntryRenderer = (node: Block | Inline, children: ReactNode): ReactNode => {
+    const nodeData: ContentfulEntry = node.data.target
+    switch (nodeData.__typename) {
+        case ContentfulNodeTypes.BOOK:
+            return <ContentfulBookRenderer.inlineRenderer {...nodeData} />
+        case ContentfulNodeTypes.BLOG_POST:
+            return <ContentfulBlogPostRenderer.inlineRenderer {...nodeData} />
+        default:
+            return <span>{`Unrecognized inline Content Type: ${nodeData.__typename}`}</span>
+    }
+}
+
 const commonOptions: Options = {
     renderMark: {
         [MARKS.BOLD]: text => (
@@ -75,17 +88,8 @@ const commonOptions: Options = {
                     return <span>{`Unrecognized Content Type: ${nodeData.__typename}`}</span>
             }
         },
-        [INLINES.EMBEDDED_ENTRY]: (node, children) => {
-            const nodeData: ContentfulEntry = node.data.target
-            switch (nodeData.__typename) {
-                case ContentfulNodeTypes.BOOK:
-                    return <ContentfulBookRenderer.inlineRenderer {...nodeData} />
-                case ContentfulNodeTypes.BLOG_POST:
-                    return <ContentfulBlogPostRenderer.inlineRenderer {...nodeData} />
-                default:
-                    return <span>{`Unrecognized inline Content Type: ${nodeData.__typename}`}</span>
-            }
-        },
+        [INLINES.ENTRY_HYPERLINK]: inlineEntryRenderer,
+        [INLINES.EMBEDDED_ENTRY]: inlineEntryRenderer,
         [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
             const nodeData: ContentfulAsset = node.data.target
             if ("fixed" in nodeData)
@@ -113,6 +117,13 @@ const commonOptions: Options = {
         [BLOCKS.PARAGRAPH]: (node, children) => <Typography paragraph>{children}</Typography>,
         [BLOCKS.QUOTE]: (node, children) => <Typography variant="body2">{children}</Typography>, // TODO replace this with something that actually looks good
         [BLOCKS.UL_LIST]: (node, children) => <List>{children}</List>,
+        [INLINES.HYPERLINK]: (node, children) => {
+            let url = node.data.uri
+            if (!/^(?:f|ht)tps?:\/\//.test(url)) {
+                url = "http://" + url
+            }
+            return <MuiLink href={url}>{(node.content[0] as Text).value}</MuiLink>
+        },
     },
 }
 
