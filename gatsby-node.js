@@ -7,35 +7,9 @@ exports.createSchemaCustomization = ({ actions }) => {
             fluid: ContentfulFluid
         }
     
-        type ContentfulBookDescription {
-            raw: String!
-        }
-
-        type MarkdownRemark implements Node @childOf(types: ["contentfulBookReviewQuoteTextNode"]) {
-            html: String!
-        }
-
-        type contentfulBookReviewQuoteTextNode implements Node @childOf(types: ["ContentfulBookReview"]) {
-            quote: String
-            childMarkdownRemark: MarkdownRemark
-        }
-
-        type ContentfulBookReview implements Node {
-            stars: Int
-            quote: contentfulBookReviewQuoteTextNode! @link(by: "id", from: "quote___NODE")
-        }
-
         type ContentfulBook implements Node {
-            title: String!
-            shortDescription: String!
-            description: ContentfulBookDescription!
-            releaseDate: Date! @dateformat
-            coverImage: ContentfulAsset @link(by: "id", from: "coverImage___NODE")
             reviews: [ContentfulBookReview!]
-        }
-
-        type ContentfulBlogPost implements Node {
-            title: String!
+            coverImage: ContentfulAsset @link(by: "id", from: "coverImage___NODE")
         }
     `)
 }
