@@ -1,3 +1,4 @@
+import { CssBaseline } from "@material-ui/core"
 import React from "react"
 //import { useStaticQuery, graphql } from "gatsby"
 
@@ -17,6 +18,7 @@ export default ({ children }: React.PropsWithChildren<{}>) => {
     return (
         <>
             <Header />
+            <CssBaseline />
             <div
                 style={{
                     margin: "0 auto",
