@@ -9,6 +9,7 @@ import {
 import { graphql } from "gatsby"
 import { Container, Divider, Grid, Paper, Typography } from "@material-ui/core"
 import Layout from "../components/Layout"
+import RichTextRenderOptions from "../components/richTextRenderers/RichTextRenderOptions"
 
 interface BookProps {
     data: {
@@ -37,7 +38,8 @@ export default ({ data }: BookProps) => {
                         <Grid container item xs={9} direction="row">
                             <div>{data.contentfulBook.title}</div>
                             <div>
-                                {data.contentfulBook.description && renderRichText(data.contentfulBook.description)}
+                                {data.contentfulBook.description &&
+                                    renderRichText(data.contentfulBook.description, RichTextRenderOptions)}
                             </div>
                         </Grid>
                         <Grid item xs={3}>
