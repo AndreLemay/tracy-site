@@ -10,7 +10,7 @@ interface ContentfulBlogPostRendererProps {
 
 const fullRenderer = ({ title, contentful_id, summary }: ContentfulBlogPostRendererProps) => {
     return (
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="center" marginBottom="1rem">
             <Paper elevation={3}>
                 <Box width={600} height={200} padding="1rem">
                     <Typography variant="h4" gutterBottom>

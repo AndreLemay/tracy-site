@@ -46,6 +46,10 @@ export const query = graphql`
                         fixed {
                             ...GatsbyContentfulFixed
                         }
+                        file {
+                            fileName
+                            url
+                        }
                     }
                     ... on ContentfulBook {
                         contentful_id
