@@ -1,6 +1,7 @@
 import { Grid, Typography } from "@material-ui/core"
 import { graphql, Link } from "gatsby"
 import React from "react"
+import Layout from "../components/Layout"
 
 interface BlogProps {
     data: {
@@ -19,16 +20,18 @@ export default ({
         allContentfulBlogPost: { nodes },
     },
 }: BlogProps) => (
-    <Grid container direction="column">
-        {nodes.map(({ contentful_id, title, summary }, i) => (
-            <Grid item key={i}>
-                <Link to={`/blog/${contentful_id}`}>
-                    <Typography variant="h4">{title}</Typography>
-                </Link>
-                <Typography variant="subtitle1">{summary}</Typography>
-            </Grid>
-        ))}
-    </Grid>
+    <Layout>
+        <Grid container direction="column">
+            {nodes.map(({ contentful_id, title, summary }, i) => (
+                <Grid item key={i}>
+                    <Link to={`/blog/${contentful_id}`}>
+                        <Typography variant="h4">{title}</Typography>
+                    </Link>
+                    <Typography variant="subtitle1">{summary}</Typography>
+                </Grid>
+            ))}
+        </Grid>
+    </Layout>
 )
 
 export const query = graphql`
