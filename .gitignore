@@ -68,5 +68,6 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 
-#generated graphql types file
+#generated graphql types file and schema
 graphql-types.ts
+schema.graphql
