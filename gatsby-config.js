@@ -4,9 +4,11 @@ require("dotenv").config({
 
 module.exports = {
     siteMetadata: {
-        title: `Tracy's Website`,
+        title: `Tracy Goldfarb`,
         description: `Portfolio/Author/Dabblings/Whatever.`,
-        author: `lemay.andre@gmail.com`,
+        keywords: `author,lgbt,lgbtq+,book,`,
+        twitterHandle: `@tracy_goldfarb`,
+        siteUrl: `localhost:8000`,
     },
     plugins: [
         {

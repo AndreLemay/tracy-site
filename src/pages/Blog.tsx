@@ -2,6 +2,7 @@ import { Grid, Typography, Divider, Box } from "@material-ui/core"
 import { graphql, Link } from "gatsby"
 import React from "react"
 import Layout from "../components/Layout"
+import Seo from "../components/Seo"
 
 interface BlogProps {
     data: {
@@ -22,6 +23,7 @@ export default ({
     },
 }: BlogProps) => (
     <Layout>
+        <Seo title="Blog" description="Tracy's musings" />
         <Grid container direction="column">
             {nodes.map(({ contentful_id, postTitle, summary, updatedAt }, i) => {
                 return (

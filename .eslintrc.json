@@ -23,7 +23,7 @@
         "sourceType": "module"
     },
     "plugins": ["react", "@typescript-eslint", "unicorn"],
-    "ignorePatterns": ["**/gatsby*.js"],
+    "ignorePatterns": ["**/*.js"],
     "rules": {
         "linebreak-style": ["error", "windows"],
         "react/display-name": ["off"],

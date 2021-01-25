@@ -8,11 +8,13 @@ import {
 import React from "react"
 import RichTextRenderOptions from "../components/richTextRenderers/RichTextRenderOptions"
 import Layout from "../components/Layout"
+import Seo from "../components/Seo"
 
 interface BlogPostProps {
     data: {
         contentfulBlogPost: {
             postTitle: string
+            summary: string
             body: RenderRichTextData<ContentfulRichTextGatsbyReference>
         }
     }
@@ -20,11 +22,12 @@ interface BlogPostProps {
 
 export default ({
     data: {
-        contentfulBlogPost: { postTitle, body },
+        contentfulBlogPost: { postTitle, summary, body },
     },
 }: BlogPostProps) => {
     return (
         <Layout>
+            <Seo title={postTitle} description={summary} />
             <Typography variant="h1" align="center" gutterBottom>
                 {postTitle}
             </Typography>
@@ -37,6 +40,7 @@ export const query = graphql`
     query($id: String!) {
         contentfulBlogPost(id: { eq: $id }) {
             postTitle
+            summary
             body {
                 raw
                 references {

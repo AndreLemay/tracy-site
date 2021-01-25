@@ -17,6 +17,7 @@ export default ({ children }: React.PropsWithChildren<{}>) => {
 
     return (
         <>
+            <span id="jss-insertion-point" />
             <Header />
             <CssBaseline />
             <div

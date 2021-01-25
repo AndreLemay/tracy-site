@@ -6,84 +6,87 @@
  */
 
 import React from "react"
-import PropTypes from "prop-types"
-import { Helmet } from "react-helmet"
+import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
+import { useLocation } from "@reach/router"
 
-function SEO({ description, lang, meta, title }) {
-    const { site } = useStaticQuery(
+interface SEOProps {
+    title?: string
+    meta?: {
+        name?: string
+        property?: string
+        content: string
+    }[]
+    lang?: string
+    description?: string
+    keywords?: string
+    image?: {
+        url: string
+        alt?: string
+        width: number
+        height: number
+    }
+}
+
+export default ({ description, lang, meta, title, keywords, image }: SEOProps) => {
+    const {
+        site: {
+            siteMetadata: { defaultTitle, defaultDescription, defaultKeywords, twitterHandle, siteUrl },
+        },
+    } = useStaticQuery(
         graphql`
             query {
                 site {
                     siteMetadata {
-                        title
-                        description
-                        author
+                        defaultTitle: title
+                        defaultDescription: description
+                        defaultKeywords: keywords
+                        twitterHandle
+                        siteUrl
                     }
                 }
             }
         `
     )
 
-    const metaDescription = description || site.siteMetadata.description
-    const defaultTitle = site.siteMetadata?.title
+    const location = useLocation()
 
     return (
-        <Helmet
-            htmlAttributes={{
-                lang,
-            }}
-            title={title}
-            titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
-            meta={[
-                {
-                    name: "description",
-                    content: metaDescription,
-                },
-                {
-                    property: "og:title",
-                    content: title,
-                },
-                {
-                    property: "og:description",
-                    content: metaDescription,
-                },
-                {
-                    property: "og:type",
-                    content: "website",
-                },
-                {
-                    name: "twitter:card",
-                    content: "summary",
-                },
-                {
-                    name: "twitter:creator",
-                    content: site.siteMetadata?.author || "",
-                },
-                {
-                    name: "twitter:title",
-                    content: title,
-                },
-                {
-                    name: "twitter:description",
-                    content: metaDescription,
-                },
-            ].concat(meta)}
-        />
+        <>
+            <Helmet titleTemplate="Tracy Goldfarb - %s" defaultTitle={defaultTitle}>
+                <html lang={lang} />
+                <title>{title}</title>
+                <base target="_blank" href="http://localhost:8000/" />
+                <meta charSet="utf-8" />
+                <meta name="description" content={description || defaultDescription} />
+                <meta name="keywords" content={keywords || defaultKeywords} />
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description || defaultDescription} />
+                {image &&
+                    Object.keys(image).map((key, i) => {
+                        switch (key) {
+                            case "url":
+                                return <meta key={i} property="og:image" content={image.url} />
+                            case "width":
+                                return <meta key={i} property="og:image:width" content={`${image.width}`} />
+                            case "height":
+                                return <meta key={i} property="og:image:height" content={`${image.height}`} />
+                            case "alt":
+                                return <meta key={i} property="twitter:image:alt" content={image.alt} />
+                            default:
+                                return null
+                        }
+                    })}
+                <meta property="og:url" content={`${siteUrl}${location.pathname}`} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:site:id" content={twitterHandle} />
+                <meta property="og:site_name" content="Tracy Goldfarb" />
+                {meta &&
+                    meta.map(({ name, property, content }, i) => (
+                        <meta key={i} {...(name ? { name } : property ? { property } : {})} content={content} />
+                    ))}
+                <link rel="canonical" href={`${siteUrl}${location.pathname}`} />
+            </Helmet>
+        </>
     )
 }
-
-SEO.defaultProps = {
-    lang: "en",
-    meta: [],
-    description: "",
-}
-
-SEO.propTypes = {
-    description: PropTypes.string,
-    lang: PropTypes.string,
-    meta: PropTypes.arrayOf(PropTypes.object),
-    title: PropTypes.string.isRequired,
-}
-
-export default SEO

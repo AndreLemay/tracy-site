@@ -7,6 +7,7 @@ import {
 import React from "react"
 import Layout from "../components/Layout"
 import RichTextRenderOptions from "../components/richTextRenderers/RichTextRenderOptions"
+import Seo from "../components/Seo"
 
 interface AboutAuthorProps {
     data: {
@@ -24,7 +25,12 @@ export default ({
             nodes: [about],
         },
     },
-}: AboutAuthorProps) => <Layout>{renderRichText(about.body, RichTextRenderOptions)}</Layout>
+}: AboutAuthorProps) => (
+    <Layout>
+        <Seo title="About Tracy" description="The Man, the Myth, the Legend" />
+        {renderRichText(about.body, RichTextRenderOptions)}
+    </Layout>
+)
 
 export const query = graphql`
     query {

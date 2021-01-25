@@ -10,12 +10,14 @@ import { graphql } from "gatsby"
 import { Container, Divider, Grid, Paper, Typography } from "@material-ui/core"
 import Layout from "../components/Layout"
 import RichTextRenderOptions from "../components/richTextRenderers/RichTextRenderOptions"
+import Seo from "../components/Seo"
 
 interface BookProps {
     data: {
         contentfulBook: {
-            title: string
-            description?: RenderRichTextData<ContentfulRichTextGatsbyReference>
+            bookTitle: string
+            shortDescription: string
+            description: RenderRichTextData<ContentfulRichTextGatsbyReference>
             reviews?: {
                 stars?: 0 | 1 | 2 | 3 | 4 | 5
                 quote: {
@@ -29,32 +31,44 @@ interface BookProps {
     }
 }
 
-export default ({ data }: BookProps) => {
+export default ({
+    data: {
+        contentfulBook: { bookTitle, shortDescription, description, reviews, coverImage },
+    },
+}: BookProps) => {
     return (
         <Layout>
+            <Seo
+                title={bookTitle}
+                description={shortDescription}
+                {...(coverImage
+                    ? {
+                          image: {
+                              url: coverImage.fixed.src,
+                              width: coverImage.fixed.width,
+                              height: coverImage.fixed.height,
+                              alt: bookTitle,
+                          },
+                      }
+                    : {})}
+            />
             <Container>
                 <Paper elevation={2}>
                     <Grid container>
                         <Grid container item xs={9} direction="row">
-                            <div>{data.contentfulBook.title}</div>
-                            <div>
-                                {data.contentfulBook.description &&
-                                    renderRichText(data.contentfulBook.description, RichTextRenderOptions)}
-                            </div>
+                            <div>{bookTitle}</div>
+                            <div>{renderRichText(description, RichTextRenderOptions)}</div>
                         </Grid>
                         <Grid item xs={3}>
-                            {data.contentfulBook.coverImage && (
-                                <Image
-                                    fixed={data.contentfulBook.coverImage.fixed}
-                                    style={{ width: "100%", height: "100%" }}
-                                    imgStyle={{ objectFit: "contain" }}
-                                />
-                            )}
+                            {
+                                // TODO use a proper placeholder just for book covers
+                                coverImage ? <Image fixed={coverImage.fixed} /> : <Image />
+                            }
                         </Grid>
                     </Grid>
                     <Divider variant="middle" />
-                    {data.contentfulBook.reviews &&
-                        data.contentfulBook.reviews.map((review, i) => (
+                    {reviews &&
+                        reviews.map((review, i) => (
                             <div key={i}>
                                 <Typography variant="caption">{review.quote.quote}</Typography>
                                 <Typography variant="subtitle1">{`${review.stars}/5 Stars`}</Typography>
@@ -70,6 +84,7 @@ export const query = graphql`
     query($id: String!) {
         contentfulBook(id: { eq: $id }) {
             bookTitle
+            shortDescription
             description {
                 raw
             }
@@ -77,7 +92,7 @@ export const query = graphql`
                 stars
             }
             coverImage {
-                fixed(width: 400) {
+                fixed(width: 1200, height: 630) {
                     ...GatsbyContentfulFixed
                 }
             }

@@ -4,6 +4,7 @@ import { FluidObject } from "gatsby-image"
 import React from "react"
 import Layout from "../components/Layout"
 import Image from "../components/Image"
+import Seo from "../components/Seo"
 
 interface BooksPageProps {
     data: {
@@ -27,6 +28,7 @@ export default ({
     },
 }: BooksPageProps) => (
     <Layout>
+        <Seo title="Books" description="Tracy's Written Works" />
         {nodes.map(({ contentful_id, releaseDate, bookTitle, shortDescription, coverImage }, i) => {
             const rDate = new Date(releaseDate) //comes in as a string, needs to be converted to date object
             return (
