@@ -8,7 +8,7 @@ module.exports = {
         description: `Portfolio/Author/Dabblings/Whatever.`,
         keywords: `author,lgbt,lgbtq+,book,`,
         twitterHandle: `@tracy_goldfarb`,
-        siteUrl: `https://tracy-site.netlify.app`,
+        siteUrl: process.env.SITE_URL,
     },
     plugins: [
         // {
