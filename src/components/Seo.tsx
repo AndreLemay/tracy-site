@@ -56,7 +56,7 @@ export default ({ description, lang, meta, title, keywords, image }: SEOProps) =
             <Helmet titleTemplate="Tracy Goldfarb - %s" defaultTitle={defaultTitle}>
                 <html lang={lang} />
                 <title>{title}</title>
-                <base target="_blank" href="http://localhost:8000/" />
+                <base target="_blank" href={`${siteUrl}`} />
                 <meta charSet="utf-8" />
                 <meta name="description" content={description || defaultDescription} />
                 <meta name="keywords" content={keywords || defaultKeywords} />
