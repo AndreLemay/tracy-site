@@ -11,12 +11,12 @@ module.exports = {
         siteUrl: `localhost:8000`,
     },
     plugins: [
-        {
-            resolve: `gatsby-plugin-schema-export`,
-            options: {
-                dest: "./schema.graphql",
-            },
-        },
+        // {
+        //     resolve: `gatsby-plugin-schema-export`,
+        //     options: {
+        //         dest: "./schema.graphql",
+        //     },
+        // },
         `gatsby-plugin-react-helmet`,
         `gatsby-plugin-material-ui`,
         {

@@ -42,6 +42,9 @@ export const query = graphql`
                         ... on ContentfulAsset {
                             ...RichTextContentfulAsset
                         }
+                        ... on ContentfulBook {
+                            ...RichTextContentfulBook
+                        }
                     }
                 }
             }
