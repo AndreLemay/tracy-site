@@ -67,3 +67,7 @@ yarn-error.log
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
+
+#generated graphql types file and schema
+graphql-types.ts
+schema.graphql
