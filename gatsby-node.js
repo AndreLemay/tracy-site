@@ -24,7 +24,7 @@ exports.createPages = async ({ actions, graphql }) => {
                 }
             }
             allContentfulBlogPost ${
-                process.env.NODE_END !== "development" ? "(filter: { isTesting: { eq: false } })" : ""
+                process.env.NODE_ENV !== "development" ? "(filter: { isTesting: { eq: false } })" : ""
             }{
                 nodes {
                     id
