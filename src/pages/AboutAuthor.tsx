@@ -34,7 +34,7 @@ export default ({
 
 export const query = graphql`
     query {
-        allContentfulAboutAuthor {
+        allContentfulAboutAuthor(filter: { isTesting: { eq: false } }) {
             nodes {
                 body {
                     raw
