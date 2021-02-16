@@ -23,7 +23,9 @@ exports.createPages = async ({ actions, graphql }) => {
                     contentful_id
                 }
             }
-            allContentfulBlogPost {
+            allContentfulBlogPost ${
+                process.env.NODE_ENV !== "development" ? "(filter: { isTesting: { eq: false } })" : ""
+            }{
                 nodes {
                     id
                     contentful_id

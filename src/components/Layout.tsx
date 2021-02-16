@@ -17,7 +17,16 @@ export default ({ children }: React.PropsWithChildren<{}>) => {
 
     return (
         <>
-            <span id="jss-insertion-point" />
+            <div
+                style={{
+                    backgroundColor: "yellow",
+                    color: "black",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                }}
+            >
+                SITE UNDER CONSTRUCTION
+            </div>
             <Header />
             <CssBaseline />
             <div
